@@ -74,23 +74,29 @@ export default {
       default: 1
       }
   },
+  data: function(){
+      return {
+          targetComponentId: this.targetId,
+          timerCompOn: this.timerOn
+      }
+  },
   methods: {
             addTarget() { 
-                let newTarget = {...this.target, passedTime: 0, id: "btn" + this.targetId++};
+                let newTarget = {...this.target, passedTime: 0, id: "btn" + this.targetComponentId++};
                 this.targets.push(newTarget);
                 this.target.name = "";
                 this.target.time = 0;
             },
             startTimer(e) {
                 const btns = Array.from(document.getElementsByClassName("start-stop-btn")).filter(b => b.id != e.target.id);
-                if (!this.timerOn){
+                if (!this.timerCompOn){
                     e.target.innerText = "stop";
                     e.target.classList.add('active-btn');                    
                     btns.forEach(b => {
                         b.classList.add("inactive-btn");
                         b.disabled = true;
                     });
-                    this.timerOn = true;                    
+                    this.timerCompOn = true;                    
                 }
                 else {
                     e.target.innerText = "start";
@@ -99,7 +105,7 @@ export default {
                         b.classList.remove("inactive-btn");
                         b.disabled = false;
                     });                   
-                    this.timerOn = false;                    
+                    this.timerCompOn = false;                    
                 }
             }
         }
