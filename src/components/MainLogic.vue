@@ -70,24 +70,26 @@ export default {
       },
     targetId: {
       Type: Number,
-      default: 1
+      default: 0
       }
   },
   data: function(){
       return {
           targetComponentId: this.targetId,
-          timerCompOn: this.timerOn
+          timerCompOn: this.timerOn,
+          timerId: 0
       }
   },
   methods: {
             addTarget() { 
-                let newTarget = {...this.target, passedTime: 0, id: "targt" + this.targetComponentId++};
+                let newTarget = {...this.target, passedTime: +0, id: "targt" + this.targetComponentId++};
                 this.targets.push(newTarget);
                 this.target.name = "";
                 this.target.time = 0;
             },
             startTimer(e) {
-                const btns = Array.from(document.getElementsByClassName("start-stop-btn")).filter(b => b.id != e.target.id);       
+                const btns = Array.from(document.getElementsByClassName("start-stop-btn")).filter(b => b.id != e.target.id);
+                const trgtBtn = this.targets.filter(btn => btn.id == e.target.id)[0];
                 if (!this.timerCompOn){
                     e.target.innerText = "stop";
                     e.target.classList.add('active-btn');                    
@@ -95,9 +97,11 @@ export default {
                         b.classList.add("inactive-btn");
                         b.disabled = true;
                     });
-                    this.timerCompOn = true;
-                    console.log(this.$refs.targets[0].targetId);
-                    this.timerId = setInterval(() => this.passedTime++, 1000);
+                    this.timerCompOn = true;  
+                    console.log(trgtBtn);
+                    this.timerId = setInterval(() => {
+                        trgtBtn.passedTime++
+                        }, 1000);
                 }
                 else {
                     e.target.innerText = "start";
