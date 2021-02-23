@@ -5,13 +5,7 @@
                     position: relative;
                     margin: 40px 0;">
             <div class="style1">
-                <p>Set free time that you have today</p>
-                <div class="style1">
-                    <label for="hours">Hours</label>
-                    <input type="number" name="hours" id="hours">
-                    <label for="minutes">Minutes</label>
-                    <input type="number" name="minutes" id="minutes">
-                </div>
+                <CurrentTarget :targetOnFocus=selected></CurrentTarget>
             </div>
             <br/>    
             <table>
@@ -20,15 +14,15 @@
                         <th>Target</th>
                         <th>Time target</th> 
                         <th>Now</th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                 </thead>
                 <tbody> 
-                    <tr v-for="t in targets" :key="t.id">
+                    <tr v-for="t in targets" :key="t.id" class="target-table" @click="selectTarget(t.id)">
                         <td>{{ t.name }}</td>
                         <td>{{ t.time }}</td>
                         <td>{{ t.passedTime }}</td>
-                        <td><button @click="startTimer($event)" :id="t.id" class="start-stop-btn">start</button></td>
+                        <!-- <td><button @click="startTimer($event)" :id="t.id" class="start-stop-btn">start</button></td> -->
                     </tr>
                 </tbody>                
             </table>
@@ -36,11 +30,11 @@
             <form action="">
                 <div class="style2">
                     <label for="targetName">Target: </label>
-                    <input type="text" name="targetName" id="target-name" v-model="target.name">
+                    <input type="text" name="targetName" id="target-name" v-model="targetToCreate.name">
                 </div>
                 <div class="style2">
                     <label for="targetTime">Time: </label>
-                    <input type="text" name="targetTime" id="target-time" v-model="target.time">
+                    <input type="text" name="targetTime" id="target-time" v-model="targetToCreate.time">
                 </div>
                 <button @click.prevent="addTarget">Save</button>
             </form>
@@ -49,21 +43,26 @@
 </template>
 
 <script>
+import CurrentTarget from './CurrentTarget'
+
 export default {
+components: {
+    CurrentTarget
+},
   name: 'MainLogic',
   props: {
     targets:{
       type: Array,
       default:() => []
     },
-    target:{
+    targetToCreate:{
       type: Object,
       default: () => ({
           name: "", 
           time: 0,          
           timerId: 0,          
       })
-    },            
+    },
     timerOn: {
       type: Boolean,
       default: false
@@ -77,15 +76,20 @@ export default {
       return {
           targetComponentId: this.targetId,
           timerCompOn: this.timerOn,
-          timerId: 0
+          timerId: 0,
+          selected: null
       }
   },
   methods: {
             addTarget() { 
-                let newTarget = {...this.target, passedTime: +0, id: "targt" + this.targetComponentId++};
+                let newTarget = {...this.targetToCreate, passedTime: +0, id: "targt" + this.targetComponentId++};
                 this.targets.push(newTarget);
-                this.target.name = "";
-                this.target.time = 0;
+                this.targetToCreate.name = "";
+                this.targetToCreate.time = 0;
+            },
+            selectTarget(id) {
+                const target = this.targets.filter(t => t.id == id)[0];                
+                this.selected = {...target};
             },
             startTimer(e) {
                 const btns = Array.from(document.getElementsByClassName("start-stop-btn")).filter(b => b.id != e.target.id);
@@ -184,5 +188,8 @@ export default {
     }
     .inactive-btn{
         background: lightgray;
+    }
+    .target-table:hover {
+        background: yellow;
     }
 </style>
