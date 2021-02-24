@@ -22,33 +22,22 @@ export default {
         }
     },
     methods: {
-        startTimer(e) {   
-                console.log(e);             
-                // const trgtBtn = this.targets.filter(btn => btn.id == e.target.id)[0];
+        startTimer(e) {
                 if (!this.onTimer){
                     e.target.innerText = "stop";
                     this.onTimer = true;
+                    this.$emit('onStartStopTimer');
                     this.timerId = setInterval(() => {
                         this.targetOnFocus.passedTime++
                         this.$emit('onPassedTimeChange', this.targetOnFocus)
                         }, 1000);
-
-                    // e.target.classList.add('active-btn');                    
-                    // this.timerCompOn = true;  
-                    // console.log(trgtBtn);
                     
                 }
                 else {
                     e.target.innerText = "start";
                     this.onTimer = false;
                     clearInterval(this.timerId);
-                    // e.target.classList.remove("active-btn"); 
-                    // btns.forEach(b => {
-                    //     b.classList.remove("inactive-btn");
-                    //     b.disabled = false;
-                    // });                   
-                    // this.timerCompOn = false;
-                    
+                    this.$emit('onStartStopTimer');
                 }
             }
     }

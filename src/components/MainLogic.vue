@@ -5,10 +5,10 @@
                     position: relative;
                     margin: 40px 0;">
             <div class="style1">
-                <CurrentTarget :targetOnFocus=selected @onPassedTimeChange="onTimeChange"></CurrentTarget>
+                <CurrentTarget :targetOnFocus=selected @onPassedTimeChange="onTimeChange" @onStartStopTimer="onStartStopTimer()"></CurrentTarget>
             </div>
-            <br/>    
-            <table>
+            <br/>            
+            <table id="target-table">
                 <thead>
                     <tr>
                         <th>Target</th>
@@ -18,14 +18,14 @@
                     </tr>
                 </thead>
                 <tbody> 
-                    <tr v-for="t in targets" :key="t.id" class="target-table" @click="selectTarget(t.id)">
+                    <tr v-for="t in targets" :key="t.id" class="target-table-tr" @click="selectTarget($event, t.id)">
                         <td>{{ t.name }}</td>
                         <td>{{ t.time }}</td>
                         <td>{{ t.passedTime }}</td>
                         <!-- <td><button @click="startTimer($event)" :id="t.id" class="start-stop-btn">start</button></td> -->
                     </tr>
                 </tbody>
-            </table>
+            </table>            
             <h3>Print your target name and time below</h3>
             <form action="">
                 <div class="style2">
@@ -83,13 +83,20 @@ export default {
                 this.targetToCreate.name = "";
                 this.targetToCreate.time = 0;
             },
-            selectTarget(id) {
-                const target = this.targets.filter(t => t.id == id)[0];                
-                this.selected = {...target};
+            selectTarget(e, id) {
+                if (!this.onTimer) {                    
+                    e.target.parentNode.style.background = 'yellow';                   
+                        
+                    const target = this.targets.filter(t => t.id == id)[0];
+                    this.selected = {...target};
+                }                
             },
             onTimeChange(target) {
                 const selectedTarget = this.targets.filter(t => t.id == target.id)[0];
                 selectedTarget.passedTime = target.passedTime;
+            },
+            onStartStopTimer() {
+                this.onTimer = !this.onTimer;               
             }
         }
 }
@@ -162,7 +169,7 @@ export default {
     .inactive-btn{
         background: lightgray;
     }
-    .target-table:hover {
+    .target-table-tr:hover {
         background: yellow;
     }
 </style>
