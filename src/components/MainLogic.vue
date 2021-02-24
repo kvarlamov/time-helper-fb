@@ -1,11 +1,11 @@
 <template>  
     <div>
-        <h1 class="rotate">Learning time helper</h1>
+        <h1 class="rotate">Time helper</h1>
         <div style="display: block;
                     position: relative;
                     margin: 40px 0;">
             <div class="style1">
-                <CurrentTarget :targetOnFocus=selected></CurrentTarget>
+                <CurrentTarget :targetOnFocus=selected @onPassedTimeChange="onTimeChange"></CurrentTarget>
             </div>
             <br/>    
             <table>
@@ -24,7 +24,7 @@
                         <td>{{ t.passedTime }}</td>
                         <!-- <td><button @click="startTimer($event)" :id="t.id" class="start-stop-btn">start</button></td> -->
                     </tr>
-                </tbody>                
+                </tbody>
             </table>
             <h3>Print your target name and time below</h3>
             <form action="">
@@ -46,9 +46,9 @@
 import CurrentTarget from './CurrentTarget'
 
 export default {
-components: {
-    CurrentTarget
-},
+  components: {
+      CurrentTarget
+  },
   name: 'MainLogic',
   props: {
     targets:{
@@ -63,10 +63,6 @@ components: {
           timerId: 0,          
       })
     },
-    timerOn: {
-      type: Boolean,
-      default: false
-      },
     targetId: {
       Type: Number,
       default: 0
@@ -74,10 +70,10 @@ components: {
   },
   data: function(){
       return {
-          targetComponentId: this.targetId,
-          timerCompOn: this.timerOn,
+          targetComponentId: this.targetId,          
           timerId: 0,
-          selected: null
+          selected: null,
+          onTimer: false
       }
   },
   methods: {
@@ -91,32 +87,9 @@ components: {
                 const target = this.targets.filter(t => t.id == id)[0];                
                 this.selected = {...target};
             },
-            startTimer(e) {
-                const btns = Array.from(document.getElementsByClassName("start-stop-btn")).filter(b => b.id != e.target.id);
-                const trgtBtn = this.targets.filter(btn => btn.id == e.target.id)[0];
-                if (!this.timerCompOn){
-                    e.target.innerText = "stop";
-                    e.target.classList.add('active-btn');                    
-                    btns.forEach(b => {
-                        b.classList.add("inactive-btn");
-                        b.disabled = true;
-                    });
-                    this.timerCompOn = true;  
-                    console.log(trgtBtn);
-                    this.timerId = setInterval(() => {
-                        trgtBtn.passedTime++
-                        }, 1000);
-                }
-                else {
-                    e.target.innerText = "start";
-                    e.target.classList.remove("active-btn"); 
-                    btns.forEach(b => {
-                        b.classList.remove("inactive-btn");
-                        b.disabled = false;
-                    });                   
-                    this.timerCompOn = false;
-                    clearInterval(this.timerId);
-                }
+            onTimeChange(target) {
+                const selectedTarget = this.targets.filter(t => t.id == target.id)[0];
+                selectedTarget.passedTime = target.passedTime;
             }
         }
 }
