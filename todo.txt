@@ -1,0 +1,14 @@
+Main Functional
+#Main page
+    - FIREBASE DATABASE ADD 
+        SAVE TO DATABASE
+        LOGIN FOR ACCOUNTS
+        
+    - 90 degrees rotate on logo
+#Settings page
+    - 
+#About
+    - write rules of using timer
+
+#Bugs
+    - hover перестает работать после первого клика

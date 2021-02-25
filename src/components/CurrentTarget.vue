@@ -2,7 +2,7 @@
   <div v-if="targetOnFocus">      
       <h1>Target name: {{targetOnFocus.name}}</h1>
       <p>Target time: {{targetOnFocus.time}}</p>
-      <p>Elapsed time: {{targetOnFocus.passedTime}}</p>
+      <p>Elapsed time: {{targetOnFocus.passedTime | timeFormatter}}</p>
       <button @click="startTimer($event)">Start</button>
   </div>
 </template>

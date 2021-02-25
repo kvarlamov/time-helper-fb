@@ -21,7 +21,7 @@
                     <tr v-for="t in targets" :key="t.id" class="target-table-tr" @click="selectTarget($event, t.id)">
                         <td>{{ t.name }}</td>
                         <td>{{ t.time }}</td>
-                        <td>{{ t.passedTime }}</td>
+                        <td>{{ t.passedTime | timeFormatter }}</td>
                         <!-- <td><button @click="startTimer($event)" :id="t.id" class="start-stop-btn">start</button></td> -->
                     </tr>
                 </tbody>
@@ -84,19 +84,21 @@ export default {
                 this.targetToCreate.time = 0;
             },
             selectTarget(e, id) {
-                if (!this.onTimer) {                    
-                    e.target.parentNode.style.background = 'yellow';                   
+                if (!this.onTimer) {
+                    const tableRows = document.querySelectorAll('#target-table > tbody > tr');
+                    tableRows.forEach(el => el.style.background = 'none');
+                    e.target.parentNode.style.background = 'yellow';
                         
                     const target = this.targets.filter(t => t.id == id)[0];
                     this.selected = {...target};
-                }                
+                }
             },
             onTimeChange(target) {
                 const selectedTarget = this.targets.filter(t => t.id == target.id)[0];
                 selectedTarget.passedTime = target.passedTime;
             },
             onStartStopTimer() {
-                this.onTimer = !this.onTimer;               
+                this.onTimer = !this.onTimer;
             }
         }
 }
@@ -168,8 +170,5 @@ export default {
     }
     .inactive-btn{
         background: lightgray;
-    }
-    .target-table-tr:hover {
-        background: yellow;
-    }
+    }    
 </style>
