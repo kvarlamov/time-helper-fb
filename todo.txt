@@ -3,6 +3,7 @@ Main Functional
     - FIREBASE DATABASE ADD 
         SAVE TO DATABASE
         LOGIN FOR ACCOUNTS
+    - get/ save setting to DATABASE
     - ADd validation on time form before creation!!!    
         
     - 90 degrees rotate on logo

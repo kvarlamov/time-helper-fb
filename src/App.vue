@@ -37,4 +37,8 @@
 .target-table-tr:hover {
         background: yellow;
     }
+.style2{
+        display: flex;
+        margin: 10px 0;
+    }
 </style>

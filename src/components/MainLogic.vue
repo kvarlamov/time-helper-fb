@@ -108,11 +108,7 @@ export default {
 <style scoped>    
     .style1{
         display: inline-block;
-    }
-    .style2{
-        display: flex;
-        margin: 10px 0;
-    }
+    }    
     .style2> label{
         width: 60px;
     }
