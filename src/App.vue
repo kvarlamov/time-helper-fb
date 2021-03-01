@@ -6,10 +6,25 @@
       <router-link to="/settings">Settings</router-link>
       <span> | </span>
       <router-link to="/about">About</router-link>
+      <span> | </span>
+      <button @click="logOut">LogOut</button>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+
+export default {
+  methods: {
+    logOut() {
+      this.$store.dispatch('logoutUser').then(() => {        
+        this.$router.push('/logOn')
+        });
+    }
+  }
+}
+</script>
 
 <style>
 #app {

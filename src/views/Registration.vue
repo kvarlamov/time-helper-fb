@@ -43,7 +43,7 @@ export default {
                 this.$store.dispatch('registerUser', user)
                 .then(() => {
                   console.log('ok')
-                  this.$router.push('/')    
+                  this.$router.push('/')
                 })
                 .catch(error => console.log("error: " + error));
             }
