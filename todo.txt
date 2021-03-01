@@ -1,8 +1,9 @@
 Main Functional
 #Main page
+    -AUTH:
+        - Add validations to login/ registration pages
     - FIREBASE DATABASE ADD 
-        SAVE TO DATABASE
-        LOGIN FOR ACCOUNTS
+        - SAVE TO DATABASE
     - get/ save setting to DATABASE
     - ADd validation on time form before creation!!!    
         

@@ -1,6 +1,12 @@
 import Vue from 'vue';
+import store from './store/index'
 import App from './App.vue';
 import router from './router';
+import firebase from 'firebase/app';
+import "firebase/auth";
+import "firebase/database";
+import "firebase/storage";
+// import "firebase/firestore";
 
 Vue.config.productionTip = false;
 
@@ -22,5 +28,21 @@ Vue.filter('timeFormatter', function (t) {
 
 new Vue({
   router,
-  render: h => h(App)
+  store,
+  render: h => h(App),
+  created() {
+    var firebaseConfig = {
+      apiKey: "AIzaSyBUD9kYKQ26P6DrQjBqgFGcwJxWeU-Jc0g",
+      authDomain: "time-helper-b6956.firebaseapp.com",
+      databaseURL: "https://time-helper-b6956-default-rtdb.firebaseio.com",
+      projectId: "time-helper-b6956",
+      storageBucket: "time-helper-b6956.appspot.com",
+      messagingSenderId: "873718315988",
+      appId: "1:873718315988:web:a682a0ae9f31620730b441",
+      measurementId: "G-HG7M2Y29H5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    console.log(firebase);
+  }
 }).$mount('#app');
