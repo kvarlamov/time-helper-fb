@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody> 
-                    <tr v-for="t in targets" :key="t.id" class="target-table-tr" @click="selectTarget($event, t.id)">
+                    <tr v-for="t in target.targets" :key="t.id" class="target-table-tr" @click="selectTarget($event, t.id)">
                         <td>{{ t.name }}</td>
                         <td>{{ t.time }}</td>
                         <td>{{ t.passedTime | timeFormatter }}</td>
@@ -44,6 +44,8 @@
 
 <script>
 import CurrentTarget from './CurrentTarget'
+import { mapState } from 'vuex';
+
 
 export default {
   components: {
@@ -51,16 +53,11 @@ export default {
   },
   name: 'MainLogic',
   props: {
-    targets:{
-      type: Array,
-      default:() => []
-    },
     targetToCreate:{
       type: Object,
       default: () => ({
-          name: "", 
-          time: 0,          
-          timerId: 0,          
+          name: "",
+          time: 0
       })
     },
     targetId: {
@@ -70,16 +67,28 @@ export default {
   },
   data: function(){
       return {
-          targetComponentId: this.targetId,          
-          timerId: 0,
+          targetComponentId: this.targetId, //get last id of last target
           selected: null,
           onTimer: false
       }
   },
+  computed: {
+        getLastId() {
+            return this.$store.getters.getLastTargetId;
+        },
+        ...mapState(['target'])
+    },
   methods: {
             addTarget() { 
-                let newTarget = {...this.targetToCreate, passedTime: +0, id: "targt" + this.targetComponentId++};
-                this.targets.push(newTarget);
+                let newTarget = {
+                    id: "targt" + this.targetComponentId++, 
+                    name: this.targetToCreate.name, 
+                    timeTarget: this.targetToCreate.time, 
+                    timePassed: +0
+                };
+
+                this.$store.dispatch('addTarget', newTarget);
+                console.log('last target id now is: ' + this.getLastId);
                 this.targetToCreate.name = "";
                 this.targetToCreate.time = 0;
             },
@@ -89,16 +98,17 @@ export default {
                     tableRows.forEach(el => el.style.background = 'none');
                     e.target.parentNode.style.background = 'yellow';
                         
-                    const target = this.targets.filter(t => t.id == id)[0];
+                    const target = this.target.targets.filter(t => t.id == id)[0];
                     this.selected = {...target};
                 }
             },
             onTimeChange(target) {
-                const selectedTarget = this.targets.filter(t => t.id == target.id)[0];
+                const selectedTarget = this.target.targets.filter(t => t.id == target.id)[0];
                 selectedTarget.passedTime = target.passedTime;
             },
             onStartStopTimer() {
                 this.onTimer = !this.onTimer;
+                //on stop save current state to database
             }
         }
 }
