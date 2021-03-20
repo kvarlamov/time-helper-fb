@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody> 
-                    <tr v-for="t in target.targets" :key="t.id" class="target-table-tr" @click="selectTarget($event, t.id)">
+                    <tr v-for="t in getTargets" :key="t.id" class="target-table-tr" @click="selectTarget($event, t.id)">
                         <td>{{ t.name }}</td>
                         <td>{{ t.time }}</td>
                         <td>{{ t.passedTime | timeFormatter }}</td>
@@ -44,7 +44,7 @@
 
 <script>
 import CurrentTarget from './CurrentTarget'
-import { mapState } from 'vuex';
+//import { mapState } from 'vuex';
 
 
 export default {
@@ -73,11 +73,9 @@ export default {
       }
   },
   computed: {
-        getLastId() {
-            return this.$store.getters.getLastTargetId;
-        },
-        ...mapState(['target'])
-    },
+    getTargets() {
+        return this.$store.getters.getTargets;
+    }},
   methods: {
             addTarget() { 
                 let newTarget = {

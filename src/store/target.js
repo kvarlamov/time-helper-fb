@@ -16,8 +16,28 @@ export default {
       }
     },
     actions: {
-        async loadTargets({commit}, targets){
-          
+        async loadTargets({commit}) {
+          try{
+            const target = await firebase.database().ref('targets').once('value');
+            const targets = target.val();
+            const targetsArray = [];
+            Object.keys(targets).forEach(key => {
+              const t = targets[key];
+              targetsArray.push(
+                new Target(
+                  key,
+                  t.name,
+                  t.timeTarget,
+                  t.timePassed,
+                  t.userId
+                )
+              )
+            })
+            commit('LOAD_TARGETS', targetsArray);
+          }
+          catch(error) {
+            console.log(error)
+          }          
         },
         async addTarget({commit, getters}, targetToAdd) {
           const newTarget = new Target(
@@ -29,19 +49,21 @@ export default {
           )
 
           const target = await firebase.database().ref('targets').push(newTarget);
-          commit('ADD_NEW_TARGET', newTarget);
+          console.log(target);
+          commit('ADD_NEW_TARGET', {
+            ...newTarget,
+            id: target.key
+          });
         },
         async removeTarget() {
 
         }
     },
-    getters: {      
-      getLastTargetId(state) {
-        if (state.targets.length == 0) {
-          return 1;
-        } else {          
-          return state.targets.slice(-1)[0].id + 1;
-        }
+    getters: {
+      getTargets(state, getters) {
+        return state.targets.filter(target => {          
+          return target.userId == getters.user.id
+        });
       }
     }
 }

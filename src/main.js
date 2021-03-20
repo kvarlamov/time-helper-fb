@@ -50,6 +50,7 @@ new Vue({
           this.$router.push('/');
         });
       }
+      this.$store.dispatch('loadTargets')
     });
   }
 }).$mount('#app');

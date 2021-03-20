@@ -1,10 +1,10 @@
 export default class Target {
     constructor(
-        id,
+        id = null,
         name, 
         timeTarget,
         timePassed,
-        userId
+        userId = null
     ) {
         this.id = id;
         this.name = name;
