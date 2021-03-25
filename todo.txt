@@ -10,7 +10,8 @@ Main Functional
                 targetTime
             }) // далее через мутацию передаем и методом find по id ищем нужное
         - DELETE database task
-        
+            await firebase().ref('tasks').child(id).remove()
+             -- мутация 
     - get/ save setting to DATABASE
     - ADd validation on time form before creation!!!    
         
