@@ -96,7 +96,7 @@ export default {
                     tableRows.forEach(el => el.style.background = 'none');
                     e.target.parentNode.style.background = 'yellow';
                         
-                    const target = this.target.targets.filter(t => t.id == id)[0];
+                    const target = this.getTargets.filter(t => t.id == id)[0];
                     this.selected = {...target};
                 }
             },
@@ -107,7 +107,10 @@ export default {
             onStartStopTimer() {
                 this.onTimer = !this.onTimer;
                 //on stop save current state to database
-            }
+            },
+            // removeTarget(){
+            //     if ()
+            // }
         }
 }
 </script>

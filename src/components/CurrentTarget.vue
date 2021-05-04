@@ -3,6 +3,7 @@
       <h1>Target name: {{targetOnFocus.name}}</h1>
       <p>Target time: {{targetOnFocus.time}}</p>
       <p>Elapsed time: {{targetOnFocus.passedTime | timeFormatter}}</p>
+      <button @click="removeTarget()">Remove</button>
       <button @click="startTimer($event)">Start</button>
   </div>
 </template>
@@ -39,7 +40,12 @@ export default {
                     clearInterval(this.timerId);
                     this.$emit('onStartStopTimer');
                 }
+            },
+        removeTarget() {
+            if (!this.onTimer){
+                this.$store.dispatch('removeTarget', this.targetOnFocus.id);
             }
+        }
     }
 }
 </script>

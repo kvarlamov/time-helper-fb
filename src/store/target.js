@@ -13,6 +13,9 @@ export default {
       ADD_NEW_TARGET(state, target) {
         console.log('target to push' + target);
         state.targets.push(target);
+      },
+      REMOVE_TARGET(state, targets) {
+        state.targets = [...targets];
       }
     },
     actions: {
@@ -55,9 +58,24 @@ export default {
             id: target.key
           });
         },
-        async removeTarget() {
-
+        async removeTarget({commit, getters}, id) {
+          try{
+            console.log("vuex: " + id);
+            await firebase.database().ref('targets').child(id).remove();
+            const filtered = getters.getTargets.filter(t => t.id != id);
+            commit('REMOVE_TARGET', filtered);
+          }
+          catch{
+            console.log("can't remove target");
+          }
         }
+        //,
+        // async updateTarget() {
+        //   const target = await firebase.datebase().ref('targets').child(id).update({
+        //     title,
+        //     targetTime
+        //   })          
+        // }
     },
     getters: {
       getTargets(state, getters) {
