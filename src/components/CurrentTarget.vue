@@ -2,7 +2,7 @@
   <div v-if="targetOnFocus">      
       <h1>Target name: {{targetOnFocus.name}}</h1>
       <p>Target time: {{targetOnFocus.time}}</p>
-      <p>Elapsed time: {{targetOnFocus.passedTime | timeFormatter}}</p>
+      <p>Elapsed time: {{targetOnFocus.timePassed | timeFormatter}}</p>
       <button @click="removeTarget()">Remove</button>
       <button @click="startTimer($event)">Start</button>
   </div>
@@ -24,14 +24,17 @@ export default {
     },
     methods: {
         startTimer(e) {
-                if (!this.onTimer){
+                if (!this.onTimer){                    
                     e.target.innerText = "stop";
                     this.onTimer = true;
                     this.$emit('onStartStopTimer');
-                    this.timerId = setInterval(() => {
-                        this.targetOnFocus.passedTime++
-                        this.$emit('onPassedTimeChange', this.targetOnFocus)
-                        }, 1000);
+                    this.timerId = setInterval(() => {                        
+                        this.targetOnFocus.timePassed++
+                        if (this.targetOnFocus.timePassed % 30 == 0) {
+                            console.log(this.targetOnFocus.timePassed)
+                            this.$store.dispatch('updateTarget', this.targetOnFocus);
+                        }
+                    }, 1000);
                     
                 }
                 else {

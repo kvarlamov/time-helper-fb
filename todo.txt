@@ -1,17 +1,15 @@
 Main Functional
+#Bugs
+    - hover перестает работать после первого клика
+    - logOut doesn't work
+
 #Main page
-    -AUTH:
-        - Add validations to login/ registration pages
-    - FIREBASE DATABASE ADD 
-        - SAVE TO DATABASE
-        - UPDATE database task (add button edit for selected - всплывающее окно - ок - сохраняем, отмена - обнуляем поля)
+            - UPDATE database task (add button edit for selected - всплывающее окно - ок - сохраняем, отмена - обнуляем поля)
             await firebase.datebase().ref('targets').child(id).update({
                 title,
                 targetTime
             }) // далее через мутацию передаем и методом find по id ищем нужное
-        - DELETE database task
-            await firebase().ref('tasks').child(id).remove()
-             -- мутация 
+        - добавить редактирование цели - всплывающее окно и сохранение. то же и для удаления
     - get/ save setting to DATABASE
     - ADd validation on time form before creation!!!    
         
@@ -21,5 +19,4 @@ Main Functional
 #About
     - write rules of using timer
 
-#Bugs
-    - hover перестает работать после первого клика
+

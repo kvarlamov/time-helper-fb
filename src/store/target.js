@@ -16,6 +16,9 @@ export default {
       },
       REMOVE_TARGET(state, targets) {
         state.targets = [...targets];
+      },
+      UPDATE_TARGET(state, target) {
+        state.targets.filter(t => t.id == target.id)[0].timePassed = target.timePassed;
       }
     },
     actions: {
@@ -68,14 +71,19 @@ export default {
           catch{
             console.log("can't remove target");
           }
+        },
+        async updateTarget({commit}, targetToUpdate) {           
+          
+          firebase.database().ref('targets/' + targetToUpdate.id).update({
+            timePassed: targetToUpdate.timePassed
+          }, (error) => {
+            if (error) {
+              console.log("can't update: " + error);
+            } else {
+              commit('UPDATE_TARGET', targetToUpdate);
+            }
+          });
         }
-        //,
-        // async updateTarget() {
-        //   const target = await firebase.datebase().ref('targets').child(id).update({
-        //     title,
-        //     targetTime
-        //   })          
-        // }
     },
     getters: {
       getTargets(state, getters) {

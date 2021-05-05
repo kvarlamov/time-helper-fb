@@ -5,7 +5,7 @@
                     position: relative;
                     margin: 40px 0;">
             <div class="style1">
-                <CurrentTarget :targetOnFocus=selected @onPassedTimeChange="onTimeChange" @onStartStopTimer="onStartStopTimer()"></CurrentTarget>
+                <CurrentTarget :targetOnFocus=selected @onStartStopTimer="onStartStopTimer()"></CurrentTarget>
             </div>
             <br/>            
             <table id="target-table">
@@ -21,7 +21,7 @@
                     <tr v-for="t in getTargets" :key="t.id" class="target-table-tr" @click="selectTarget($event, t.id)">
                         <td>{{ t.name }}</td>
                         <td>{{ t.time }}</td>
-                        <td>{{ t.passedTime | timeFormatter }}</td>
+                        <td>{{ t.timePassed | timeFormatter }}</td>
                         <!-- <td><button @click="startTimer($event)" :id="t.id" class="start-stop-btn">start</button></td> -->
                     </tr>
                 </tbody>
@@ -96,21 +96,13 @@ export default {
                     tableRows.forEach(el => el.style.background = 'none');
                     e.target.parentNode.style.background = 'yellow';
                         
-                    const target = this.getTargets.filter(t => t.id == id)[0];
-                    this.selected = {...target};
+                    this.selected = this.getTargets.filter(t => t.id == id)[0];
                 }
-            },
-            onTimeChange(target) {
-                const selectedTarget = this.target.targets.filter(t => t.id == target.id)[0];
-                selectedTarget.passedTime = target.passedTime;
-            },
+            },            
             onStartStopTimer() {
                 this.onTimer = !this.onTimer;
-                //on stop save current state to database
-            },
-            // removeTarget(){
-            //     if ()
-            // }
+                this.$store.dispatch('updateTarget', this.selected);
+            }
         }
 }
 </script>
