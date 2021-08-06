@@ -5,11 +5,16 @@
       <p>Elapsed time: {{targetOnFocus.timePassed | timeFormatter}}</p>
       <button @click="removeTarget()">Remove</button>
       <button @click="startTimer($event)">Start</button>
+      <button @click="edit = !edit">Edit</button>
+      <modal v-if="edit"></modal>
   </div>
 </template>
 
 <script>
+import Modal from './Modal.vue'
+
 export default {
+  components: { Modal },
     name: 'CurrentTarget',
     props: {
         targetOnFocus: {
@@ -19,7 +24,8 @@ export default {
     data() {
         return {
             onTimer: false,
-            timerId: 0
+            timerId: 0,
+            edit: false
         }
     },
     methods: {
