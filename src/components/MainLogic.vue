@@ -98,10 +98,10 @@ export default {
                         
                     this.selected = this.getTargets.filter(t => t.id == id)[0];
                 }
-            },            
+            },
             onStartStopTimer() {
                 this.onTimer = !this.onTimer;
-                this.$store.dispatch('updateTarget', this.selected);
+                this.$store.dispatch('updateTargetTime', this.selected);
             }
         }
 }

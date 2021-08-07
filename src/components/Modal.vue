@@ -12,14 +12,23 @@
 
               <div class="modal-body">
                 <slot name="body">
-                  default body
+                  <form action="" slot="body">
+                    <div class="style2">
+                        <label for="targetName">Target: </label>
+                        <input type="text" name="targetName" id="editing-name" v-model="editingClone.name">
+                    </div>
+                    <div class="style2">
+                        <label for="targetTime">Time: </label>
+                        <input type="text" name="targetTime" id="editing-time" v-model="editingClone.time">
+                    </div>
+                </form>
                 </slot>
               </div>
 
               <div class="modal-footer">
                 <slot name="footer">
                   default footer
-                  <button class="modal-default-button">
+                  <button class="modal-default-button" @click="okAndClose()">
                     OK
                   </button>
                   <button class="modal-default-button" @click="cancel()">
@@ -41,12 +50,19 @@ export default {
             type: Object
         }
     }, 
+    data() {
+      return {
+        editingClone:JSON.parse(JSON.stringify(this.editing))
+      }
+    },
     methods: {
         cancel() {
             this.$emit('onCloseModal')
         },
         okAndClose() {
-            this.$store.dispatch('updateTarget', this.editing)
+            this.$store.dispatch('updateTarget', this.editingClone)
+              .then(() => {this.$emit('onCloseModal')})
+              .catch((e) => console.log("error on updating in modal: " + e))
         }
     }
 }

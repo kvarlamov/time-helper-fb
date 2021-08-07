@@ -6,7 +6,9 @@
       <button @click="removeTarget()">Remove</button>
       <button @click="startTimer($event)">Start</button>
       <button @click="edit = !edit">Edit</button>
-      <modal v-if="edit" :editing=targetOnFocus @onCloseModal='edit=false'></modal>
+      <modal v-if="edit" :editing=targetOnFocus @onCloseModal='edit=false'>
+          <h2 slot="header">Edit target {{targetOnFocus.name}}</h2>
+      </modal>
   </div>
 </template>
 
@@ -14,7 +16,7 @@
 import Modal from './Modal.vue'
 
 export default {
-  components: { Modal },
+    components: { Modal },
     name: 'CurrentTarget',
     props: {
         targetOnFocus: {
@@ -37,8 +39,7 @@ export default {
                     this.timerId = setInterval(() => {                        
                         this.targetOnFocus.timePassed++
                         if (this.targetOnFocus.timePassed % 30 == 0) {
-                            console.log(this.targetOnFocus.timePassed)
-                            this.$store.dispatch('updateTarget', this.targetOnFocus);
+                            this.$store.dispatch('updateTargetTime', this.targetOnFocus);
                         }
                     }, 1000);
                     
