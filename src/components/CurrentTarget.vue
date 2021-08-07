@@ -6,7 +6,7 @@
       <button @click="removeTarget()">Remove</button>
       <button @click="startTimer($event)">Start</button>
       <button @click="edit = !edit">Edit</button>
-      <modal v-if="edit"></modal>
+      <modal v-if="edit" :editing=targetOnFocus @onCloseModal='edit=false'></modal>
   </div>
 </template>
 
