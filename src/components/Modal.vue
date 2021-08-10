@@ -59,7 +59,7 @@ export default {
         cancel() {
             this.$emit('onCloseModal')
         },
-        okAndClose() {
+        okAndClose() {            
             this.$store.dispatch('updateTarget', this.editingClone)
               .then(() => {this.$emit('onCloseModal')})
               .catch((e) => console.log("error on updating in modal: " + e))

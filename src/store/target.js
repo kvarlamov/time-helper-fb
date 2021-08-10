@@ -21,7 +21,9 @@ export default {
         state.targets.filter(t => t.id == target.id)[0].timePassed = target.timePassed;
       },
       UPDATE_TARGET(state, target) {
-        state.targets.filter(t => t.id = target.id)[0] = {...target};
+        const updating = state.targets.filter(t => t.id == target.id)[0]
+        updating.name = target.name
+        updating.timeTarget = target.timeTarget
       }
     },
     actions: {
@@ -91,7 +93,7 @@ export default {
           await firebase.database().ref('targets').child(targetToUpdate.id).update({
             timePassed: targetToUpdate.timePassed,
             name: targetToUpdate.name,
-            timeTarget: targetToUpdate.timePassed
+            timeTarget: targetToUpdate.timeTarget
           }, (error) => {
             if (error) {
               console.log("can't update target: " + error);
