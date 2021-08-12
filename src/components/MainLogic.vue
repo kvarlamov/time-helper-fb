@@ -1,6 +1,5 @@
 <template>  
-    <div>
-        <h1 class="rotate">Time helper</h1>
+    <div>        
         <div style="display: block;
                     position: relative;
                     margin: 40px 0;">
@@ -134,35 +133,7 @@ export default {
         display: inline-block;
     }  
     
-    h1{
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        margin-left: -30px;
-        font-size: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        background: #369;
-        color: #fff;
-        padding: 5px 10px;
-        margin: 0 0 10px 0;
-        line-height: 24px;
-    }
-    .rotate {
-        transform: rotate(-90deg);
-        /* Legacy vendor prefixes that you probably don't need... */
-        /* Safari */
-        -webkit-transform: rotate(-90deg);
-        /* Firefox */
-        -moz-transform: rotate(-90deg);
-        /* IE */
-        -ms-transform: rotate(-90deg);
-        /* Opera */
-        -o-transform: rotate(-90deg);
-        /* Internet Explorer */
-        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-    }
+    
     .active-btn{
         background:green;
         

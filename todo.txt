@@ -3,14 +3,12 @@ Main Functional
     - logOut doesn't work - need to check
 
 #Main page
-    - 2 updates:
-        - now have updateTargetTime - it's update only time - so refactor to time update
-        - add update to target.state - update target at all - so time and name and so on
     - ADd validation on time form before creation!!!        
     - 90 degrees rotate on logo
+    - Add pomodoro logic to timer
 #Settings page
     - if need pomodoro timer add
-    - change background color for user 
+    - change background color for user
 #About
     - write rules of using timer - some tutorial
 
