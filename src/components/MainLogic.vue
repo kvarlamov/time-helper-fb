@@ -36,6 +36,11 @@
                     <input type="text" name="targetTime" id="target-time" v-model="targetToCreate.time">
                 </div>
                 <button @click.prevent="addTarget">Save</button>
+                <p v-if="errors.length">
+                    <ul>
+                        <li v-for="error in errors" :key="error">{{error}}</li>
+                    </ul>
+                </p>
             </form>
         </div>
     </div>  
@@ -68,7 +73,8 @@ export default {
       return {
           targetComponentId: this.targetId, //get last id of last target
           selected: null,
-          onTimer: false
+          onTimer: false,
+          errors: []
       }
   },
   computed: {
@@ -77,6 +83,8 @@ export default {
     }},
   methods: {
             addTarget() { 
+                if (!this.checkForm())
+                    return;
                 let newTarget = {
                     id: "targt" + this.targetComponentId++, 
                     name: this.targetToCreate.name, 
@@ -101,6 +109,18 @@ export default {
             onStartStopTimer() {
                 this.onTimer = !this.onTimer;
                 this.$store.dispatch('updateTargetTime', this.selected);
+            },
+            checkForm() {
+                if (this.targetName && this.targetTime) {
+                    return true;
+                }
+
+                this.errors = []
+
+                if (!this.targetName){
+                    this.errors.push('Name is required')
+                }
+                return false;
             }
         }
 }
